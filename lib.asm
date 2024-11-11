@@ -8,23 +8,12 @@ section .data
 section .text
 
 capture:
-    ; сохраняем адресс возврата
-    mov rax,[rsp]
-    mov [return_address], rax
-    ;выпрыгиваем из f
-    jmp [rsp + 16]
-  .return1:
-    ; вот здесь оказываемся после splice
-    ; делаем чтобы после f вернулись в splice, и из splice корректно вышли
-    mov rdi, [rsp]
-    mov [rsp+16],rdi
-    mov  rax, [return_address]
-    mov [rsp],rax
+    mov rax, [rsp]
+    mov [return_address] ,rax
     ret
 
-
-
 splice:
-    jmp capture.return1
+    add rsp, 8
+    jmp [return_address]
 
 
